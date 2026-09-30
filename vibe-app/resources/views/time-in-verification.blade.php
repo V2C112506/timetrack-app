@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#fff8f7">
+    <title>Time In Verification | TimeTrack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+</head>
+<body class="verify-page">
+    @php($employee = session('authenticated_employee', session('registered_employee', ['full_name' => 'Alexandre Tan', 'email' => 'alexandre.tan@timetrack.enterprise', 'worksite' => 'Metro Logistics Hub - Bldg B'])))
+    @php($timeIn = session('time_in', ['display' => now('Asia/Singapore')->format('h:i:s A')]))
+    <header class="verify-header"><a class="back-button" href="{{ route('attendance') }}" aria-label="Back"><span class="material-symbols-outlined">arrow_back</span></a><img src="{{ asset('images/timetrack-logo.svg') }}" alt="TimeTrack logo"><h1>Biometric Scanner Flow</h1><span class="profile-avatar">AT</span></header>
+    <main class="verify-main">
+        <section class="step-card"><div class="section-heading"><h2>Time In Verification</h2><b><span class="material-symbols-outlined">verified_user</span>Step 3 of 3</b></div><div class="steps"><div><span class="done material-symbols-outlined">check</span><small>1. Selfie</small></div><div><span class="done material-symbols-outlined">check</span><small>2. Location</small></div><div><span class="current material-symbols-outlined">fact_check</span><small>3. Confirm</small></div></div></section>
+        <section class="audit-banner"><span class="material-symbols-outlined">lightbulb</span><div><strong>Verification Audit Passed</strong><p>{{ $employee['full_name'] }}, your time-in was recorded at {{ $timeIn['display'] }} from {{ $employee['worksite'] }}.</p></div></section>
+        <section class="verify-card current-employee-card"><div class="verify-card-heading"><h2><span class="material-symbols-outlined teal-text">person</span>Employee Time In</h2><b><i></i>Recorded</b></div><div class="employee-record"><div><small>Employee</small><strong>{{ $employee['full_name'] }}</strong><small>{{ $employee['email'] }} · {{ $employee['worksite'] }}</small></div><b>{{ $timeIn['display'] }}</b></div></section>
+        <section class="verify-card"><div class="verify-card-heading"><h2><span class="material-symbols-outlined green-text">photo_camera_front</span>Biometric Photo Verification</h2><b><i></i>Matched</b></div><div class="camera-result"><div class="camera-backdrop"></div><div class="face-guide"><span class="material-symbols-outlined">center_focus_strong</span>Face Detected &amp; Centered</div><div class="camera-watermark"><span>● LIVE 100%</span><time>2026-09-28 09:42:15 AM</time></div></div></section>
+        <section class="verify-card"><div class="verify-card-heading"><h2><span class="material-symbols-outlined green-text">share_location</span>Geofence Location</h2><b class="location-badge"><span class="material-symbols-outlined">pin_drop</span>Location Verified ±2.8m</b></div><div class="map-preview"><div class="map-lines"></div><div class="geofence-ring"><span class="map-ping"></span><span class="map-dot"></span><b>100m Geofence</b></div><div class="distance-badge"><span class="material-symbols-outlined green-text">navigation</span>38 meters away <strong>(Well within 100m radius)</strong></div></div><div class="workplace-row"><span class="material-symbols-outlined">apartment</span><div><strong>Metro Logistics Hub - Bldg B</strong><small>Authorized Site Workstation #402</small></div><span class="material-symbols-outlined green-text">check_circle</span></div></section>
+        <section class="verify-card"><div class="verify-card-heading"><h2><span class="material-symbols-outlined rose-text">badge</span>Attendance Record Summary</h2><b class="shift-badge">Shift A-1</b></div><div class="record-grid"><div><small>Time In</small><strong>08:43 <em>AM</em></strong></div><div><small>Date</small><strong>Sep 28, 2026</strong><span>Monday · On Time</span></div></div><div class="employee-record"><div><small>Employee</small><strong>Alexandre Tan</strong></div><b>EMP-08241</b></div><div class="payload"><span class="material-symbols-outlined rose-text">enhanced_encryption</span><div><small>Payload Authenticity</small><strong>SHA-256 Verified Biometric Payload (8f2b0c1...9e4a)</strong></div></div></section>
+        <section class="verify-actions"><button id="submitBtn" class="confirm-button" type="button"><span class="material-symbols-outlined">touch_app</span>Confirm &amp; Submit Time In</button><button class="retake-button" type="button" onclick="window.history.back()"><span class="material-symbols-outlined">replay</span>Retake Photo</button></section>
+    </main>
+    <nav class="bottom-nav"><a href="{{ route('attendance') }}"><span class="material-symbols-outlined">schedule</span>Attendance</a><a href="{{ url('/history') }}"><span class="material-symbols-outlined">calendar_month</span>History</a><a class="active" href="{{ url('/verify') }}"><span class="material-symbols-outlined">document_scanner</span>Verify</a><a href="{{ url('/profile') }}"><span class="material-symbols-outlined">badge</span>Profile</a></nav>
+    <script src="{{ asset('js/app.js') }}"></script>
+</body>
+</html>
